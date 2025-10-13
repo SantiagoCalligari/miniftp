@@ -13,8 +13,8 @@
 #define MSG_212 "212 Directory status.\r\n"
 #define MSG_213 "213 File status.\r\n"
 #define MSG_214 "214 Help message.\r\n"
-#define MSG_215 "215 "OS_NAME" system type.\r\n"
-#define MSG_220 "220 "BANNER".\r\n"
+#define MSG_215 "215 " OS_NAME " system type.\r\n"
+#define MSG_220 "220 " BANNER ".\r\n"
 #define MSG_221 "221 Goodbye.\r\n"
 #define MSG_225 "225 Data connection open; no transfer in progress.\r\n"
 #define MSG_226 "226 Transfer complete.\r\n"
@@ -30,7 +30,8 @@
 #define MSG_426 "426 Connection closed; transfer aborted.\r\n"
 #define MSG_450 "450 Requested file action not taken.\r\n"
 #define MSG_451 "451 Requested action aborted: local error in processing.\r\n"
-#define MSG_452 "452 Requested action not taken; insufficient storage space.\r\n"
+#define MSG_452                                                                \
+  "452 Requested action not taken; insufficient storage space.\r\n"
 #define MSG_500 "500 Syntax error, command unrecognized.\r\n"
 #define MSG_501 "501 Syntax error in parameters or argument.\r\n"
 #define MSG_502 "502 Command not implemented.\r\n"
@@ -38,9 +39,11 @@
 #define MSG_504 "504 Command not implemented for that parameter.\r\n"
 #define MSG_530 "530 Not logged in.\r\n"
 #define MSG_532 "532 Need account for storing files.\r\n"
-#define MSG_550 "550 Requested action not taken; file unavailable %s.\r\n" // %s reasons
+#define MSG_550                                                                \
+  "550 Requested action not taken; file unavailable %s.\r\n" // %s reasons
 #define MSG_551 "551 Requested action aborted: page type unknown.\r\n"
-#define MSG_552 "552 Requested file action aborted; Exceeded storage allocation.\r\n"
+#define MSG_552                                                                \
+  "552 Requested file action aborted; Exceeded storage allocation.\r\n"
 #define MSG_553 "553 Requested action not taken; File name not allowed.\r\n"
 
 // https://www.rfc-editor.org/rfc/rfc2228
@@ -54,6 +57,7 @@
 #define MSG_535 "535 Failed security check.\r\n"
 #define MSG_533 "533 Command protection level denied for policy reasons.\r\n"
 #define MSG_536 "536 Requested PROT level not supported by mechanism.\r\n"
-#define MSG_537 "537 Command protection level not supported by security mechanism.\r\n"
+#define MSG_537                                                                \
+  "537 Command protection level not supported by security mechanism.\r\n"
 
 // 401, 253 responses are not standards ???

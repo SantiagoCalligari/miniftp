@@ -3,7 +3,7 @@
 #define APP_NAME "ausFTP"
 #define VERSION "1.0"
 #define OS_NAME "Linux"
-#define BANNER APP_NAME" version "VERSION" ready"
+#define BANNER APP_NAME " version " VERSION " ready"
 #define BUG_EMAIL "your.email@example.com"
 
 #define FTP_PORT 21

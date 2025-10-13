@@ -7,7 +7,6 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <stdlib.h>
-#include <errno.h>      // perror()
 
 static struct argp_option options[] = {
   { "port",    'p', "PORT", 0, PORT_DOC, 0 },

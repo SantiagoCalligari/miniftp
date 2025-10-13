@@ -1,14 +1,12 @@
 #include "arguments.h"
 #include "server.h"
-#include "utils.h"
 #include "signals.h"
+#include "utils.h"
+#include <arpa/inet.h> // for inet_ntoa()
 #include <stdio.h>
-#include <stdlib.h>     // EXIT_*
+#include <stdlib.h> // EXIT_*
 #include <string.h>
-#include <unistd.h>     // for close()
-#include <arpa/inet.h>  // for inet_ntoa()
-#include <errno.h>
-#include <signal.h>
+#include <unistd.h> // for close()
 
 int main(int argc, char **argv) {
   struct arguments args;
@@ -24,7 +22,7 @@ int main(int argc, char **argv) {
 
   setup_signals();
 
-  while(1) {
+  while (1) {
     struct sockaddr_in client_addr;
 
     memset(&client_addr, 0, sizeof(client_addr));
@@ -44,7 +42,7 @@ int main(int argc, char **argv) {
       // Child process
 
       // Join parent's PGID
-      pid_t pgid = getpgrp();  // parent's PGID
+      pid_t pgid = getpgrp(); // parent's PGID
       if (setpgid(0, pgid) < 0) {
         perror("setpgid child");
       }
@@ -56,17 +54,19 @@ int main(int argc, char **argv) {
 
       char client_ip[INET_ADDRSTRLEN];
       inet_ntop(AF_INET, &client_addr.sin_addr, client_ip, sizeof(client_ip));
-      printf("[+] New connection from %s:%d handled by child PID %d\n", client_ip, ntohs(client_addr.sin_port), getpid());
+      printf("[+] New connection from %s:%d handled by child PID %d\n",
+             client_ip, ntohs(client_addr.sin_port), getpid());
 
       server_loop(new_socket); // Each child sets its own session
 
-      printf("[-] Child PID %d closing connection for %s:%d\n", getpid(), client_ip, ntohs(client_addr.sin_port));
+      printf("[-] Child PID %d closing connection for %s:%d\n", getpid(),
+             client_ip, ntohs(client_addr.sin_port));
 
       // https://en.cppreference.com/w/c/program/EXIT_status
       exit(EXIT_SUCCESS);
     } else {
       // Parent process
-      close_fd(new_socket,"client socket");  // important to avoid socket leaks
+      close_fd(new_socket, "client socket"); // important to avoid socket leaks
     }
   }
 

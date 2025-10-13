@@ -1,21 +1,19 @@
 // signal.c
 
+#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/wait.h> // for pid_t
 #include <unistd.h>
-#include <signal.h>
-#include <sys/wait.h>   // for pid_t
 
 #include "signals.h"
-#include "session.h"    // for current_sess
-#include "utils.h"      // for close_fd()
+#include "utils.h" // for close_fd()
 
 int server_socket = -1;
 
 static void handle_sigint(int sig) {
   (void)sig;
   static volatile sig_atomic_t in_handler = 0;
-
 
   if (in_handler) {
     fprintf(stderr, "SIGINT handler reentered!\n");
@@ -24,14 +22,15 @@ static void handle_sigint(int sig) {
   in_handler = 1;
 
   static int sigint_count = 0;
-  fprintf(stderr, "SIGINT handler called (count = %d) in PID %d\n", ++sigint_count, getpid());
+  fprintf(stderr, "SIGINT handler called (count = %d) in PID %d\n",
+          ++sigint_count, getpid());
 
   printf("[+] SIGINT received. Shutting down...\n");
   fflush(stdout);
 
   // Close listening socket
   if (server_socket >= 0) {
-    close_fd(server_socket,"listen socket");
+    close_fd(server_socket, "listen socket");
     server_socket = -1;
   }
 
@@ -47,7 +46,6 @@ static void handle_sigint(int sig) {
   // Restore previous signal mask (optional here since we're exiting)
   sigprocmask(SIG_SETMASK, &oldset, NULL);
 
-
   exit(EXIT_SUCCESS);
 }
 
@@ -62,7 +60,8 @@ static void handle_sigterm(int sig) {
   }
   in_handler = 1;
 
-  fprintf(stderr, "[+] SIGTERM received. Shutting down (PID %d)...\n", getpid());
+  fprintf(stderr, "[+] SIGTERM received. Shutting down (PID %d)...\n",
+          getpid());
 
   // Close listening socket if open
   if (server_socket >= 0) {
@@ -81,9 +80,9 @@ void setup_signals(void) {
   // Setup SIGINT and SIGTERM for parent
 
   sigemptyset(&sa.sa_mask);
-  sigaddset(&sa.sa_mask, SIGINT);  // Block SIGINT while handler runs
+  sigaddset(&sa.sa_mask, SIGINT); // Block SIGINT while handler runs
 
-  sa.sa_flags = SA_RESTART;        // Restart interrupted syscalls
+  sa.sa_flags = SA_RESTART; // Restart interrupted syscalls
 
   sa.sa_handler = handle_sigint;
 

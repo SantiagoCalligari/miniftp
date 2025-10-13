@@ -1,17 +1,14 @@
 #include "server.h"
-#include "utils.h"
-#include "config.h"
 #include "pi.h"
 #include "session.h"
+#include <arpa/inet.h>
+#include <errno.h>
+#include <netinet/in.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include <strings.h>
-#include <unistd.h>
-#include <arpa/inet.h>
-#include <netinet/in.h>
 #include <sys/socket.h>
-#include <errno.h>
+#include <unistd.h>
 
 extern int server_socket;
 
@@ -53,7 +50,8 @@ int server_init(const char *ip, int port) {
     return -1;
   }
 
-  if (bind(listen_fd, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0) {
+  if (bind(listen_fd, (struct sockaddr *)&server_addr, sizeof(server_addr)) <
+      0) {
     fprintf(stderr, "Bind failed: ");
     perror(NULL);
     close(listen_fd);
@@ -101,7 +99,7 @@ void server_loop(int socket) {
   if (welcome(current_sess) < 0)
     return;
 
-  while(1) {
+  while (1) {
     // Get command from Control Channel
     if (getexe_command(current_sess) < 0)
       break;

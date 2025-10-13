@@ -1,6 +1,6 @@
 #pragma once
 
-# include "config.h"
+#include "config.h"
 #include <netinet/in.h> // sockaddr_in
 
 typedef struct {

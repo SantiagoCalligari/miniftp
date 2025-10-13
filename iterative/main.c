@@ -1,13 +1,11 @@
 #include "arguments.h"
 #include "server.h"
-#include "utils.h"
 #include "signals.h"
+#include "utils.h"
+#include <arpa/inet.h> // for inet_ntoa()
 #include <stdio.h>
-#include <stdlib.h>     // EXIT_*
-#include <string.h>
-#include <unistd.h>     // for close()
-#include <arpa/inet.h>  // for inet_ntoa()
-#include <errno.h>
+#include <stdlib.h> // EXIT_*
+#include <unistd.h> // for close()
 
 int main(int argc, char **argv) {
   struct arguments args;
@@ -23,7 +21,7 @@ int main(int argc, char **argv) {
 
   setup_signals();
 
-  while(1) {
+  while (1) {
     struct sockaddr_in client_addr;
     int new_socket = server_accept(listen_fd, &client_addr);
     if (new_socket < 0)
@@ -31,11 +29,13 @@ int main(int argc, char **argv) {
 
     char client_ip[INET_ADDRSTRLEN];
     inet_ntop(AF_INET, &client_addr.sin_addr, client_ip, sizeof(client_ip));
-    printf("Connection from %s:%d accepted\n", client_ip, ntohs(client_addr.sin_port));
+    printf("Connection from %s:%d accepted\n", client_ip,
+           ntohs(client_addr.sin_port));
 
     server_loop(new_socket);
 
-    printf("Connection from %s:%d closed\n", client_ip, ntohs(client_addr.sin_port));
+    printf("Connection from %s:%d closed\n", client_ip,
+           ntohs(client_addr.sin_port));
   }
 
   // NEVER GO HERE

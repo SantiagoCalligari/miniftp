@@ -1,12 +1,7 @@
 #define _POSIX_C_SOURCE 200809L
-#include "server.h"
-#include <signal.h>
-#include <stdlib.h>
-#include <stdio.h>
 #include <stdarg.h>
+#include <stdio.h>
 #include <unistd.h>
-#include <string.h>
-#include <errno.h>
 
 void close_fd(int fd, const char *label) {
 
